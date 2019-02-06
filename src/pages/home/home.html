@@ -1,14 +1,75 @@
+<!--
+  Generated template for the HomePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
 <ion-header>
-  <ion-navbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
-  </ion-navbar>
+
+  <ion-toolbar>
+   <div class="user-locations">
+     <div class="location">
+       <ion-searchbar #searchbar [(ngModel)]="autocomplete.query" [showCancelButton]="true" (ionInput)="updateSearch()"
+       (ionCancel)="dismiss()" (debounce)=1000 placeholder="From"></ion-searchbar>
+       <ion-buttons end>
+         <button ion-button icon-only (click)="myLocation()" >
+           <ion-icon name="locate"></ion-icon>
+         </button>
+       </ion-buttons>
+     </div>
+     <div class="location">
+      <ion-searchbar placeholder="To" #searchbar [(ngModel)]="autocomplete1.query" [showCancelButton]="true" (ionInput)="updateSearch1()"
+      (ionCancel)="dismiss()" (debounce)=1000></ion-searchbar>
+      <ion-buttons end>
+        <button ion-button clear icon-only [disabled]="userLocation.to.lng == null || userLocation.from.lng == null" (click)="calculateAndDisplayRoute()">
+          Find
+        </button>
+      </ion-buttons>
+    </div>
+   </div>
+  </ion-toolbar>
+
 </ion-header>
 
-<ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+
+<ion-content>
+    <ion-list class="predictions">
+      <ng-container *ngIf="autocompleteItems">
+        <ng-container *ngIf="autocompleteItems.length;else nolist">
+            <ion-item *ngFor="let item of autocompleteItems" tappable (click)="chooseItem(item, 'from')">
+                <ion-label> {{ item }}</ion-label>
+              </ion-item>
+        </ng-container>
+        <ng-template #nolist>
+            <ion-item *ngIf="autocompleteItems.length == 0 && autocomplete.query == ''">
+                <ion-label> No result</ion-label>
+              </ion-item>
+        </ng-template>
+      </ng-container>
+
+      <ng-container *ngIf="autocompleteItems1">
+          <ng-container *ngIf="autocompleteItems1.length;else nolist1">
+              <ion-item *ngFor="let item of autocompleteItems1" tappable (click)="chooseItem(item, 'to')">
+                  <ion-label> {{ item }}</ion-label>
+                </ion-item>
+          </ng-container>
+          <ng-template #nolist1>
+              <ion-item *ngIf="autocompleteItems1.length == 0 && autocomplete1.query == ''">
+                  <ion-label> No result</ion-label>
+                </ion-item>
+          </ng-template>
+        </ng-container>
+        
+        <!-- <div *ngIf="noResult" class="noResult">
+          <img src="./assets/imgs/noresult.png">
+          <span>No search result!</span>
+        </div> -->
+      </ion-list>
+  <div class="mp" #map style="height:100%"></div>
+
+  <div class="distance-time" *ngIf="timeCalulated && (timeCalulated.time != '' || timeCalulated.distance != '' )">
+    <div class="distance">Distance: {{timeCalulated.distance}}</div>
+    <div class="time">Estimated Time: {{timeCalulated.time}}</div>
+  </div>
+  
 </ion-content>

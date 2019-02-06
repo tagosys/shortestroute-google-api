@@ -5,26 +5,32 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
 import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
-
+import { LocationAccuracy } from '@ionic-native/location-accuracy';
+import { Geolocation } from '@ionic-native/geolocation';
+import { AlertProvider } from '../services/alert';
+import { GoogleServicesProvider } from '../services/google-services';
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
     MyApp,
-    HomePage
-  ],
+      ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    HttpClientModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage
-  ],
+    ],
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    LocationAccuracy,
+    Geolocation,
+    AlertProvider,
+    GoogleServicesProvider
   ]
 })
 export class AppModule {}

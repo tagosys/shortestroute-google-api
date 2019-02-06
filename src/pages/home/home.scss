@@ -1,3 +1,31 @@
 page-home {
+    .user-locations{
+        .location{
+            display: flex;
+            align-items: center;
+        }
+    }
+    .predictions{
+        position: absolute;
+        z-index: 1;
+        top:0;
+        width: 100%;
+       // height: 100%;
+        display: flex;
+        flex-direction: column;
+        ion-label{
+          font-size: 13px;
+        }
+      }
 
+      .distance-time{
+        position: absolute;
+        z-index: 1;
+        bottom: 10px;
+        background: rgba(21, 15, 15, 0.59);
+        left: 5px;
+        border-radius: 5px;
+        padding: 10px;
+        color: #fff;
+      }
 }
